@@ -4,9 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "../src/components/layout/Layout";
 
 import { RouteAbout, RouteBlog, RouteBlogAdd,RouteBlogEdit,RouteIndex, RouteInternship, RouteOpportunity, RouteProfile, RouteSignIn, RouteSignUp } from "./helpers/RouteName";
-import SignIn from "./pages/Signin";
-import SignUp from "./pages/Signup";
-import Index from "./pages";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Index from "./pages/Index";
 import Profile from "./pages/Profile"
 import Addblog from "./pages/Addblog"
 import BlogDetails from "./pages/BlogDetails";
