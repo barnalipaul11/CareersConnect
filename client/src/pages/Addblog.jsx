@@ -38,7 +38,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { showToast } from "@/helpers/showToast";
 import { getEnv } from "@/helpers/getEnv";
 import { useSelector } from "react-redux";
-import { RouteBlogAdd } from "@/helpers/RouteName";
+import { RouteBlogAdd, RouteInternship, RouteOpportunity } from "@/helpers/RouteName";
 
 // Mock data
 const companyOptions = [
@@ -212,7 +212,7 @@ const interviewFormSchema = z.object({
   interviewDate: z.date({ required_error: "Please select a date." }),
   experience: z
     .string()
-    .min(50, { message: "Experience must be at least 50 characters." }),
+    .min(20, { message: "Experience must be at least 20 characters." }),
   difficultyLevel: z.enum(["easy", "medium", "hard"], {
     required_error: "Please select difficulty level.",
   }),
@@ -237,8 +237,9 @@ const opportunityFormSchema = z.object({
     .min(10, { message: "Eligibility must be at least 10 characters." }),
   description: z
     .string()
-    .min(50, { message: "Description must be at least 50 characters." }),
+    .min(20, { message: "Description must be at least 20 characters." }),
 });
+
 
 const SubmitForm = () => {
   const user = useSelector((state) => state.user);
@@ -310,7 +311,7 @@ async function onOpportunitySubmit(values) {
     }
 
     opportunityForm.reset();
-    navigate(RouteBlogAdd);
+    navigate(RouteOpportunity);
     showToast("success", data.message);
   } catch (error) {
     showToast("error", error.message);
@@ -347,7 +348,7 @@ async function onInterviewSubmit(values) {
     }
 
     interviewForm.reset();
-    navigate(RouteBlogAdd);
+    navigate(RouteInternship);
     showToast("success", data.message);
   } catch (error) {
     showToast("error", error.message);

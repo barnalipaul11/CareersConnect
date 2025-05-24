@@ -54,7 +54,7 @@ const opportunitySchema = new Schema({
   description: {
     type: String,
     required: [true, "Description is required."],
-    minlength: [50, "Description must be at least 50 characters."],
+    minlength: [20, "Description must be at least 20 characters."],
     trim: true,
   },
   userId: {

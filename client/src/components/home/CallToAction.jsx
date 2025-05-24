@@ -16,14 +16,14 @@ const CallToAction = () => {
           <p className="text-lg text-muted-foreground mb-8">
             Help others by sharing your interview journey or posting job opportunities you know about.
           </p>
-          {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/blog/add">
               <Button size="lg">Share Interview Experience</Button>
             </Link>
             <Link to="/submit?type=opportunity">
               <Button size="lg" variant="outline">Post a Job Opportunity</Button>
             </Link>
-          </div> */}
+          </div>
         </div>
       </div>
     </section>

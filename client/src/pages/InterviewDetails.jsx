@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { ArrowLeft } from "lucide-react"
 import LikeCount from "@/components/LikeCount"
-
+import { useIsMobile } from "../hooks/use-mobile.js";
 export default function InterviewDetails() {
   const { id } = useParams()
   const [interview, setInterview] = useState(null)
@@ -98,119 +98,113 @@ export default function InterviewDetails() {
     day: "numeric"
   }) : "Unknown";
   
+  
   return (
-    <div className="animate-fade-in max-w-6xl mx-auto">
-      <div className="mb-6">
-        <Button variant="ghost" asChild className="group">
-          <Link to="/interview" className="flex items-center">
-            <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition" />
-            Back to all interviews
-          </Link>
-        </Button>
-      </div>
-
-      <Card className="border-border shadow-lg bg-card">
-        <CardHeader>
-          <div className="flex justify-between items-start mb-4">
-            {interview.difficultyLevel && (
-              <Badge
-                // Fix template literal syntax with proper backticks
-                className={`${getDifficultyColor(
-                  interview.difficultyLevel
-                )} px-3 py-1 capitalize`}
-              >
-                {interview.difficultyLevel}
-              </Badge>
-            )}
-            {/* {formattedInterviewDate && (
-              <span className="text-sm text-muted-foreground">
-                {formattedInterviewDate}
-              </span>
-            )} */}
-                <LikeCount interviewid={interview._id} />
-          </div>
-
-          <CardTitle className="text-3xl">{interview.title}</CardTitle>
-          <CardDescription className="text-xl mt-2 capitalize">
-            {interview.companyId} • {interview.roleId}
-          </CardDescription>
-
-          <div className="flex items-center mt-4 space-x-2">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-primary/20 text-primary">
-                {interview.author?.[0]?.toUpperCase() || "A"}
-              </AvatarFallback>
-            </Avatar>
-            <span className="text-muted-foreground">
-                  Author: {interview.author?.name} 
-            </span>
-          </div>
-        </CardHeader>
-
-        <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-primary/5 rounded-lg">
-            {/* <div>
-              <h3 className="text-sm font-medium text-muted-foreground mb-1">Interview ID</h3>
-              <p className="text-sm font-mono">{interview._id || id}</p>
-            </div> */}
-            <div>
-              <h3 className="text-sm font-medium text-muted-foreground mb-1">Company</h3>
-              <p className="capitalize">{interview.companyId}</p>
-            </div>
-            <div>
-              <h3 className="text-sm font-medium text-muted-foreground mb-1">Role</h3>
-              <p className="capitalize">{interview.roleId}</p>
-            </div>
-            <div>
-              <h3 className="text-sm font-medium text-muted-foreground mb-1">Difficulty</h3>
-              <p className="capitalize">{interview.difficultyLevel}</p>
-            </div>
-            <div>
-              <h3 className="text-sm font-medium text-muted-foreground mb-1">Interview Date</h3>
-              <p>{formattedInterviewDate || "Not specified"}</p>
-            </div>
-            <div>
-              <h3 className="text-sm font-medium text-muted-foreground mb-1">Created</h3>
-              <p>{formattedCreatedDate}</p>
-            </div>
-          </div>
-          
-          <div className="flex flex-wrap gap-2">
-            <h3 className="text-sm font-medium text-muted-foreground w-full mb-1">Tags</h3>
-            {interview.tags?.length > 0 ? (
-              interview.tags.map((tag, index) => (
-                <Badge key={index} variant="secondary" className="text-xs">
-                  {tag}
-                </Badge>
-              ))
-            ) : (
-              <span className="text-sm text-muted-foreground">No tags</span>
-            )}
-          </div>
-
-          <Separator className="my-4" />
-
-          <div className="prose prose-invert max-w-none prose-headings:text-primary prose-a:text-blue-400">
-            <h3 className="text-lg font-medium mb-2">Experience</h3>
-            <p className="whitespace-pre-wrap">{interview.experience}</p>
-          </div>
-        </CardContent>
-
-        <CardFooter className="flex justify-between pt-4 border-t border-border text-sm text-muted-foreground">
-          <div>
-            Created: {formattedCreatedDate}
-          </div>
-          {interview.updatedAt && interview.updatedAt !== interview.createdAt && (
-            <div>
-              Updated: {new Date(interview.updatedAt).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "numeric"
-              })}
-            </div>
-          )}
-        </CardFooter>
-      </Card>
+  <div className="animate-fade-in max-w-4xl mx-auto px-2 sm:px-4">
+    <div className="mb-4 sm:mb-6">
+      <Button variant="ghost" asChild className="group">
+        <Link to="/interview" className="flex items-center">
+          <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition" />
+          Back to all interviews
+        </Link>
+      </Button>
     </div>
-  )
+
+    <Card className="border-border shadow-lg bg-card">
+      <CardHeader>
+        <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
+          {interview.difficultyLevel && (
+            <Badge
+              className={`${getDifficultyColor(interview.difficultyLevel)} px-3 py-1 capitalize text-xs sm:text-sm`}
+            >
+              {interview.difficultyLevel}
+            </Badge>
+          )}
+          <LikeCount interviewid={interview._id} />
+        </div>
+
+        <CardTitle className="text-2xl sm:text-3xl">{interview.title}</CardTitle>
+        <CardDescription className="text-base sm:text-xl mt-2 capitalize">
+          {interview.companyId} • {interview.roleId}
+        </CardDescription>
+
+        <div className="flex items-center mt-3 sm:mt-4 space-x-2">
+          <Avatar className="h-7 w-7 sm:h-8 sm:w-8">
+            <AvatarFallback className="bg-primary/20 text-primary">
+              {interview.author?.[0]?.toUpperCase() || "A"}
+            </AvatarFallback>
+          </Avatar>
+          <span className="text-xs sm:text-sm text-muted-foreground">
+            Author: {interview.author?.name}
+          </span>
+        </div>
+      </CardHeader>
+
+      <CardContent className="space-y-4 sm:space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 p-2 sm:p-4 bg-primary/5 rounded-lg">
+          {/* <div>
+            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-1">Interview ID</h3>
+            <p className="text-xs sm:text-sm font-mono break-all">{interview._id || id}</p>
+          </div> */}
+          <div>
+            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-1">Company</h3>
+            <p className="capitalize text-xs sm:text-sm">{interview.companyId}</p>
+          </div>
+          <div>
+            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-1">Role</h3>
+            <p className="capitalize text-xs sm:text-sm">{interview.roleId}</p>
+          </div>
+          <div>
+            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-1">Difficulty</h3>
+            <p className="capitalize text-xs sm:text-sm">{interview.difficultyLevel}</p>
+          </div>
+          <div>
+            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-1">Interview Date</h3>
+            <p className="text-xs sm:text-sm">{formattedInterviewDate || "Not specified"}</p>
+          </div>
+          <div>
+            <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-1">Created</h3>
+            <p className="text-xs sm:text-sm">{formattedCreatedDate}</p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <h3 className="text-xs sm:text-sm font-medium text-muted-foreground w-full mb-1">Tags</h3>
+          {interview.tags?.length > 0 ? (
+            interview.tags.map((tag, index) => (
+              <Badge key={index} variant="secondary" className="text-xs">
+                {tag}
+              </Badge>
+            ))
+          ) : (
+            <span className="text-xs sm:text-sm text-muted-foreground">No tags</span>
+          )}
+        </div>
+
+        <Separator className="my-3 sm:my-4" />
+
+        <div className="prose prose-invert max-w-none prose-headings:text-primary prose-a:text-blue-400">
+          <h3 className="text-base sm:text-lg font-medium mb-2">Experience</h3>
+          <p className="whitespace-pre-wrap text-xs sm:text-base">{interview.experience}</p>
+        </div>
+      </CardContent>
+
+      <CardFooter className="flex flex-col sm:flex-row justify-between pt-4 border-t border-border text-xs sm:text-sm text-muted-foreground gap-2 sm:gap-0">
+        <div>
+          Created: {formattedCreatedDate}
+        </div>
+        {interview.updatedAt && interview.updatedAt !== interview.createdAt && (
+          <div>
+            Updated: {new Date(interview.updatedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric"
+            })}
+          </div>
+        )}
+      </CardFooter>
+    </Card>
+  </div>
+);
+
 }
